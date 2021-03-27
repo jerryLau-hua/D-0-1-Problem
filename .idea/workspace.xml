@@ -18,8 +18,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+            <state relative-caret-position="1520">
+              <caret line="98" column="50" lean-forward="true" selection-start-line="98" selection-start-column="50" selection-end-line="98" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -230,7 +230,7 @@
       <workItem from="1616746307004" duration="19000" />
       <workItem from="1616767494667" duration="8788000" />
       <workItem from="1616807330987" duration="631000" />
-      <workItem from="1616808639290" duration="7639000" />
+      <workItem from="1616808639290" duration="7727000" />
     </task>
     <task id="LOCAL-00001" summary="“完成了数据的读取”">
       <created>1616775681499</created>
@@ -257,7 +257,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17578000" />
+    <option name="totallyTimeSpent" value="17666000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -284,7 +284,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22402598" sideWeight="0.4924812" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12620838" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12620838" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -308,7 +308,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="“完成了数据的读取”" />
-    <option name="LAST_COMMIT_MESSAGE" value="“完成了数据的读取”" />
+    <MESSAGE value="“完成了散点图的绘制”" />
+    <option name="LAST_COMMIT_MESSAGE" value="“完成了散点图的绘制”" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -379,8 +380,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+        <state relative-caret-position="1520">
+          <caret line="98" column="50" lean-forward="true" selection-start-line="98" selection-start-column="50" selection-end-line="98" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
