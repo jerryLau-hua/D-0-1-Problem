@@ -3,14 +3,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
 import javax.swing.*;
 import java.io.IOException;
 
@@ -37,11 +38,12 @@ public class Main {
      * 用户选择
      */
     private static int doChoice(Scanner in) throws IOException {
-        System.out.println("****欢迎****\n请选择：");
+        System.out.println("****欢迎进入****");
         System.out.println("1.文件读入并绘制散点图");
         System.out.println("2.排序");
         System.out.println("3.算法实现");
         System.out.println("4.退出");
+        System.out.println("请输入选项进行对应操作：");
         int choice = in.nextInt();
         switch (choice) {
             case 1:
@@ -83,11 +85,61 @@ public class Main {
                 int index = in.nextInt();
                 profitUse = profitList.get(index - 1);
                 weightUse = weightList.get(index - 1);
-
-
+                profitUse.replace(".", "");
+                weightUse.replace(".", "");
+                String[] _splitString_profit = convertStrToArray(profitUse);//转存
+                String[] _splitString_weight = convertStrToArray(weightUse);//转存
+                int[] _ints_profit = paseStringToInt(_splitString_profit);
+                int[] _ints_weight = paseStringToInt(_splitString_weight);
+                for (int i = 0; i < _ints_profit.length / 3; i++) {
+                    for (int j = 0; j < _ints_profit.length / 3 - i - 1; j++) {
+                        if ((Double.valueOf(_ints_profit[3 * j + 2]) / Double.valueOf(_ints_weight[3 * j + 2])) <= (Double.valueOf(_ints_profit[3 * (j + 1) + 2]) / Double.valueOf(_ints_weight[3 * (j + 1) + 2]))) {
+                            for (int k = 0; k < 3; k++) {
+                                swap(_ints_profit, (3 * j + k), (3 * (j + 1) + k));
+                                swap(_ints_weight, (3 * j + k), (3 * (j + 1) + k));
+                            }
+                        }
+                    }
+                }
+                System.out.println("按价值/重量比非递增排序结果如下：");
+                System.out.println("排序后的profit：");
+                for (int i = 0; i < _ints_profit.length; i++) {
+                    System.out.println(_ints_profit[i] + ",");
+                }
+                System.out.println("排序后的weight");
+                for (int i = 0; i < _ints_weight.length; i++) {
+                    System.out.println(_ints_weight[i] + ",");
+                }
+//                System.out.println(_ints_weight);
+//                //找出每组数据的第3n个数
+//                ArrayList<Integer> Num3_profit = findNum3(_ints_profit, 3);
+//                ArrayList<Integer> Num3_weight = findNum3(_ints_weight, 3);
+//                //找出每组数据的第3n-1个数
+//                ArrayList<Integer> Num2_profit = findNum3(_ints_profit, 2);
+//                ArrayList<Integer> Num2_weight = findNum3(_ints_weight, 2);
+//                //找出每组数据的第1个数
+//                ArrayList<Integer> Num1_profit = findNum3(_ints_profit, 1);
+//                ArrayList<Integer> Num1_weight = findNum3(_ints_weight, 1);
+//                System.out.println(Num2_profit);
+//                System.out.println(Num2_weight);
                 break;
             case 3:
-
+                System.out.println("");
+                System.out.println("请输入所要执行的算法标号：\n" +
+                        "1.动态规划算法" +
+                        "2.回溯算法");
+                System.out.println("请输入：");
+                int option = in.nextInt();
+                switch (option) {
+                    case 1:
+                        System.out.println("动态规划算法");
+                        break;
+                    case 2:
+                        System.out.println("回溯算法");
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case 4:
                 System.out.println("*****已退出***");
@@ -98,6 +150,46 @@ public class Main {
         }
         return choice;
     }
+
+    /**
+     * 交换函数
+     */
+    public static void swap(int[] arr, int a, int b) {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+
+//    /**
+//     * TODO:find atom you want in each item
+//     */
+//    private static ArrayList<Integer> findNum3(int[] m, int n) {
+//        int count = 1;
+//        ArrayList<Integer> temp = new ArrayList<>();
+//        switch (n) {
+//            case 3:
+//                for (int i = 2 * count; i < m.length; i = 3 * count - 1) {
+//                    count++;
+//                    temp.add(m[i]);
+//                }
+//                return temp;
+//            case 2:
+//                for (int i =  count; i < m.length; i = 3 * count - 2) {
+//                    count++;
+//                    temp.add(m[i]);
+//                }
+//                return temp;
+//            case 1:
+//                for (int i = 0; i < m.length; i = 3 * count ) {
+//                    count++;
+//                    temp.add(m[i]);
+//                }
+//                return temp;
+//            default:
+//                break;
+//        }
+//    return null;
+//    }
 
     /**
      * 字符串数组转int数组
@@ -185,7 +277,7 @@ public class Main {
             ChartPanel chartPanel = new ChartPanel(freeChart);
             chartPanel.setPreferredSize(new java.awt.Dimension(560, 400));
             //创建一个主窗口来显示面板
-            JFrame frame = new JFrame("图表");
+            JFrame frame = new JFrame("Chart");
             frame.setLocation(500, 400);
             frame.setSize(600, 500);
             //将主窗口的内容面板设置为图表面板

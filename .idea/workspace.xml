@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="935a7d28-45fb-47c1-9c3c-3ca721d88f45" name="Default" comment="“完成了散点图的绘制”">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/D_01_Problem/Main.class" afterPath="$PROJECT_DIR$/out/production/D_01_Problem/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-    </list>
+    <list default="true" id="935a7d28-45fb-47c1-9c3c-3ca721d88f45" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -237,7 +233,7 @@
       <workItem from="1616852375556" duration="245000" />
       <workItem from="1616897540570" duration="8825000" />
       <workItem from="1616911321583" duration="10441000" />
-      <workItem from="1617008587497" duration="1479000" />
+      <workItem from="1617008587497" duration="1660000" />
     </task>
     <task id="LOCAL-00001" summary="“完成了数据的读取”">
       <created>1616775681499</created>
@@ -267,11 +263,18 @@
       <option name="project" value="LOCAL" />
       <updated>1616817955407</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="“完成了数据的非递增排序”">
+      <created>1617010195232</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1617010195232</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40768000" />
+    <option name="totallyTimeSpent" value="40949000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -323,7 +326,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="“完成了数据的读取”" />
     <MESSAGE value="“完成了散点图的绘制”" />
-    <option name="LAST_COMMIT_MESSAGE" value="“完成了散点图的绘制”" />
+    <MESSAGE value="“完成了数据的非递增排序”" />
+    <option name="LAST_COMMIT_MESSAGE" value="“完成了数据的非递增排序”" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
