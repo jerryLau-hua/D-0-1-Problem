@@ -18,17 +18,36 @@ import java.io.IOException;
 public class Main {
     private static ArrayList<String> profitList;//读文件获取到的数据集合
     private static ArrayList<String> weightList;
+    private static ArrayList<String> volumeStringList;//背包容量所在的长字符串数组
     private static String profitUse;//集合中获取到的某项对应用户所选择的的数据
     private static String weightUse;
+    private static String volumeUse;//经过处理后的背包容量
     private static String[] splitString_profit;//字符串分割为字符数组
     private static String[] splitString_weight;
+    private static String[] splitString_volume;//字符串分割之后的背包容量数组
     private static int[] ints_profit;//字符串数组转换成整型数组
     private static int[] ints_weight;
 
 
     public static void main(String[] args) throws IOException {
+
         int choice = 0;
         Scanner input = new Scanner(System.in);
+        System.out.println("*****初始化数据***");
+        System.out.println("请输入读入的文件名：");
+        String filename = input.next();
+        String filePath = "./data/" + filename + ".txt";
+        int flag = readTxtFile(filePath);
+        if (flag == 1) {
+//            System.out.println(volumeStringList);
+//            System.out.println(profitList);
+//            System.out.println(weightList);
+            System.out.println("******读取成功******");
+            System.out.println("******数据初始化成功******");
+        } else {
+            System.out.println("*******读取失败*****");
+            System.out.println("*******数据初始化失败*****");
+        }
         do {
             choice = doChoice(input);
         } while (choice != 4);
@@ -38,43 +57,37 @@ public class Main {
      * 用户选择
      */
     private static int doChoice(Scanner in) throws IOException {
-        System.out.println("****欢迎进入****");
-        System.out.println("1.文件读入并绘制散点图");
+        System.out.println("\n");
+        System.out.println("1.绘制散点图");
         System.out.println("2.排序");
         System.out.println("3.算法实现");
         System.out.println("4.退出");
         System.out.println("请输入选项进行对应操作：");
         int choice = in.nextInt();
+        int index;
         switch (choice) {
+
             case 1:
-                System.out.println("输入要读取的文件名");
-                String fileName = in.next();
-                String filePath = "C:\\Users\\83583\\Desktop\\28\\data_set\\" + fileName + ".txt";
-                int flag = readTxtFile(filePath);
-                if (flag == 1) {
-                    System.out.println("******读取成功******");
-                    System.out.println("想要本文件第几组数据进行生成图表：");
-                    int index = in.nextInt();
-                    //输入选择为第几个数据制表
-                    profitUse = profitList.get(index - 1);
-                    profitUse = profitUse.replace(".", "");
-                    /***价值**/
-                    splitString_profit = convertStrToArray(profitUse);//转存
-                    ints_profit = paseStringToInt(splitString_profit);//转换为数字
-                    /***权重**/
-                    weightUse = weightList.get(index - 1);
-                    weightUse = weightUse.replace(".", "");
-                    splitString_weight = convertStrToArray(weightUse);
-                    ints_weight = paseStringToInt(splitString_weight);
-                    int drawchartflag = drawchart(ints_profit, ints_weight);
-                    if (drawchartflag == 1) {
-                        System.out.println("绘制表格成功");
-                    } else {
-                        System.out.println("绘制表格失败，请确认数据是否正确");
-                    }
+                System.out.println("想要本文件第几组数据进行生成图表：");
+                index = in.nextInt();
+                //输入选择为第几个数据制表
+                profitUse = profitList.get(index - 1);
+                profitUse = profitUse.replace(".", "");
+                /***价值**/
+                splitString_profit = convertStrToArray(profitUse);//转存
+                ints_profit = paseStringToInt(splitString_profit);//转换为数字
+                /***权重**/
+                weightUse = weightList.get(index - 1);
+                weightUse = weightUse.replace(".", "");
+                splitString_weight = convertStrToArray(weightUse);
+                ints_weight = paseStringToInt(splitString_weight);
+                int drawchartflag = drawchart(ints_profit, ints_weight);
+                if (drawchartflag == 1) {
+                    System.out.println("绘制表格成功");
                 } else {
-                    System.out.println("*******读取失败*****");
+                    System.out.println("绘制表格失败，请确认数据是否正确");
                 }
+
 //                System.out.println("*****************");
 //                    for (String s : splitString_profit) {
 //                        System.out.println(s);
@@ -82,7 +95,7 @@ public class Main {
                 break;
             case 2:
                 System.out.println("想要本文件第几组数据进行排序");
-                int index = in.nextInt();
+                index = in.nextInt();
                 profitUse = profitList.get(index - 1);
                 weightUse = weightList.get(index - 1);
                 profitUse.replace(".", "");
@@ -110,18 +123,6 @@ public class Main {
                 for (int i = 0; i < _ints_weight.length; i++) {
                     System.out.println(_ints_weight[i] + ",");
                 }
-//                System.out.println(_ints_weight);
-//                //找出每组数据的第3n个数
-//                ArrayList<Integer> Num3_profit = findNum3(_ints_profit, 3);
-//                ArrayList<Integer> Num3_weight = findNum3(_ints_weight, 3);
-//                //找出每组数据的第3n-1个数
-//                ArrayList<Integer> Num2_profit = findNum3(_ints_profit, 2);
-//                ArrayList<Integer> Num2_weight = findNum3(_ints_weight, 2);
-//                //找出每组数据的第1个数
-//                ArrayList<Integer> Num1_profit = findNum3(_ints_profit, 1);
-//                ArrayList<Integer> Num1_weight = findNum3(_ints_weight, 1);
-//                System.out.println(Num2_profit);
-//                System.out.println(Num2_weight);
                 break;
             case 3:
                 System.out.println("");
@@ -133,9 +134,84 @@ public class Main {
                 switch (option) {
                     case 1:
                         System.out.println("动态规划算法");
+                        System.out.println("输入哪组数据进行动态规划算法");
+                        int Dataindex1 = in.nextInt();
+                        profitUse = profitList.get(Dataindex1 - 1);
+                        weightUse = weightList.get(Dataindex1 - 1);
+                        volumeUse = volumeStringList.get(Dataindex1 - 1);
+                        // System.out.println(volumeUse+"\n");
+                        profitUse.replace(".", "");
+                        weightUse.replace(".", "");
+                        String[] _splitString_profit1 = convertStrToArray(profitUse);//转存
+                        String[] _splitString_weight1 = convertStrToArray(weightUse);//转存
+                        String[] _splitString_volume1 = convertStrToArray_volume(volumeUse);
+                        int volumeDp = Integer.parseInt(_splitString_volume1[_splitString_volume1.length - 1].replace(".", ""));
+                        int[] _ints_profit1 = paseStringToInt(_splitString_profit1);
+                        int[] _ints_weight1 = paseStringToInt(_splitString_weight1);
+//                        System.out.println("输入容量：");
+//                        int volumeDp = in.nextInt();
+                        int[][] profitdp = new int[_ints_profit1.length / 3 + 1][3];
+                        int[][] weightdp = new int[_ints_profit1.length / 3 + 1][3];
+                        int iddp = 0;
+                        for (int i = 0; i < 3; i++) {
+                            profitdp[0][i] = 0;
+                            weightdp[0][i] = 0;
+                        }
+                        for (int i = 1; i < profitdp.length; i++) {
+                            for (int j = 0; j < 3; j++) {
+                                profitdp[i][j] = _ints_profit1[iddp];
+                                weightdp[i][j] = _ints_weight1[iddp];
+                                iddp++;
+                            }
+                        }
+                        long starttimeDp = System.currentTimeMillis();
+                        Dp(profitdp, weightdp, volumeDp);
+                        long endtimeDp = System.currentTimeMillis();
+                        System.out.println("本次动态规划算法执行时间" + String.format("%.6f", Double.valueOf(endtimeDp - starttimeDp) / 1000) + "s");
                         break;
                     case 2:
                         System.out.println("回溯算法");
+                        System.out.println("输入哪组数据进行回溯算法");
+                        int Dataindex = in.nextInt();
+                        profitUse = profitList.get(Dataindex - 1);
+                        weightUse = weightList.get(Dataindex - 1);
+                        volumeUse = volumeStringList.get(Dataindex - 1);
+                        profitUse.replace(".", "");
+                        weightUse.replace(".", "");
+                        String[] _splitString_profit2 = convertStrToArray(profitUse);//转存
+                        String[] _splitString_weight2 = convertStrToArray(weightUse);//转存
+                        String[] _splitString_volume2 = convertStrToArray_volume(volumeUse);
+                        int[] _ints_profit2 = paseStringToInt(_splitString_profit2);
+                        int[] _ints_weight2 = paseStringToInt(_splitString_weight2);
+                        int volume = Integer.parseInt(_splitString_volume2[_splitString_volume2.length - 1].replace(".", ""));
+//                        System.out.println("输入容量：");
+//                        int volume = in.nextInt();
+                        int[][] profit = new int[_ints_profit2.length / 3 + 1][3];
+                        int[][] weight = new int[_ints_profit2.length / 3 + 1][3];
+                        int id = 0;
+                        for (int i = 0; i < 3; i++) {
+                            profit[0][i] = 0;
+                            weight[0][i] = 0;
+                        }
+                        for (int i = 1; i < profit.length; i++) {
+                            for (int j = 0; j < 3; j++) {
+                                profit[i][j] = _ints_profit2[id];
+                                weight[i][j] = _ints_weight2[id];
+                                id++;
+                            }
+                        }
+                        List<Integer> ret = new ArrayList<>();
+                        int totalProfit = 0;
+                        int totalWeight = 0;
+                        //使用Date创建日期对象
+                        long start = System.currentTimeMillis();
+                        //调用回溯算法
+                        recursion(ret, volume, profit, weight, totalProfit, totalWeight, 0, 0);
+                        Collections.sort(ret);
+                        System.out.println("最优解为：" + ret.get(ret.size() - 1));
+                        long over = System.currentTimeMillis();
+                        System.out.println("本次回溯算法执行的时间为：" + String.format("%.6f", Double.valueOf((over - start)) / 1000) + " s");
+
                         break;
                     default:
                         break;
@@ -160,36 +236,46 @@ public class Main {
         arr[b] = temp;
     }
 
-//    /**
-//     * TODO:find atom you want in each item
-//     */
-//    private static ArrayList<Integer> findNum3(int[] m, int n) {
-//        int count = 1;
-//        ArrayList<Integer> temp = new ArrayList<>();
-//        switch (n) {
-//            case 3:
-//                for (int i = 2 * count; i < m.length; i = 3 * count - 1) {
-//                    count++;
-//                    temp.add(m[i]);
-//                }
-//                return temp;
-//            case 2:
-//                for (int i =  count; i < m.length; i = 3 * count - 2) {
-//                    count++;
-//                    temp.add(m[i]);
-//                }
-//                return temp;
-//            case 1:
-//                for (int i = 0; i < m.length; i = 3 * count ) {
-//                    count++;
-//                    temp.add(m[i]);
-//                }
-//                return temp;
-//            default:
-//                break;
-//        }
-//    return null;
-//    }
+    /**
+     * 动态规划算法
+     */
+    private static void Dp(int[][] a, int[][] b, int v) {
+        int[][] dp = new int[a.length][v + 1];
+        for (int i = 1; i <= a.length - 1; i++) {
+            for (int j = 1; j <= v; j++) {
+                dp[i][j] = dp[i - 1][j];           // 不选第i组物品
+                for (int k = 0; k < 3; k++) { // 第i组物品中选一件
+                    if (j >= b[i][k]) {
+                        dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - b[i][k]] + a[i][k]);
+                    }
+                }
+            }
+        }
+        System.out.println("算法执行完成，最优解为" + dp[a.length - 1][v]);
+        // return dp[a.length-1][v];
+    }
+
+    /**
+     * 回溯算法
+     */
+    public static void recursion(List<Integer> ret, int volume, int[][] p, int[][] w, int totalProfit, int totalWeight, int i, int j) {
+        if (j != 3) {
+//            相当于不选当前的项集
+            totalProfit = totalProfit + p[i][j];
+            totalWeight = totalWeight + w[i][j];
+        }
+//        如果加上当前物品时总重量超过了背包容量则返回上一级
+        if (totalWeight > volume) {
+            return;
+        }
+        if (i == p.length - 1) {
+            ret.add(totalProfit);
+            return;
+        }
+        for (int k = 0; k < 4; k++) {
+            recursion(ret, volume, p, w, totalProfit, totalWeight, i + 1, k);
+        }
+    }
 
     /**
      * 字符串数组转int数组
@@ -212,6 +298,15 @@ public class Main {
     }
 
     /**
+     * 字符串用" "分割
+     */
+    private static String[] convertStrToArray_volume(String str) {
+        String[] strArray = null;
+        strArray = str.split(" "); //拆分字符为" " ,然后把结果交给数组strArray
+        return strArray;
+    }
+
+    /**
      * 读取数据
      */
     public static int readTxtFile(String filePath) {
@@ -225,7 +320,11 @@ public class Main {
                 String lineTxt = null;
                 profitList = new ArrayList<>();
                 weightList = new ArrayList<>();
+                volumeStringList = new ArrayList<>();
                 while ((lineTxt = bufferedReader.readLine()) != null) {
+                    if (lineTxt.contains("the cubage of knapsack is")) {
+                        volumeStringList.add(lineTxt);
+                    }
                     if (lineTxt.equals("The profit of items are:")) {
                         String profit = bufferedReader.readLine();
                         profitList.add(profit);
