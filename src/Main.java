@@ -1,8 +1,6 @@
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.jfree.chart.ChartFactory;
@@ -13,7 +11,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
-import java.io.IOException;
 
 public class Main {
     private static ArrayList<String> profitList;//读文件获取到的数据集合
@@ -27,6 +24,7 @@ public class Main {
     private static String[] splitString_volume;//字符串分割之后的背包容量数组
     private static int[] ints_profit;//字符串数组转换成整型数组
     private static int[] ints_weight;
+    private static String filePath;
 
 
     public static void main(String[] args) throws IOException {
@@ -36,48 +34,46 @@ public class Main {
         System.out.println("*****初始化数据***");
         System.out.println("请输入读入的文件名：");
         String filename = input.next();
-        String filePath = "./data/" + filename + ".txt";
+        filePath = "./data/" + filename + ".txt";
         int flag = readTxtFile(filePath);
         if (flag == 1) {
 //            System.out.println(volumeStringList);
 //            System.out.println(profitList);
 //            System.out.println(weightList);
-            System.out.println("******读取成功******");
+            System.out.println("******读取文件成功******");
             System.out.println("******数据初始化成功******");
+            do {
+                choice = doChoice(input);
+            } while (choice != 4);
         } else {
             System.out.println("*******读取失败*****");
             System.out.println("*******数据初始化失败*****");
         }
-        do {
-            choice = doChoice(input);
-        } while (choice != 4);
+
     }
 
     /**
      * 用户选择
      */
     private static int doChoice(Scanner in) throws IOException {
-        System.out.println("\n");
         System.out.println("1.绘制散点图");
         System.out.println("2.排序");
         System.out.println("3.算法实现");
         System.out.println("4.退出");
         System.out.println("请输入选项进行对应操作：");
         int choice = in.nextInt();
-        int index;
         switch (choice) {
-
             case 1:
                 System.out.println("想要本文件第几组数据进行生成图表：");
-                index = in.nextInt();
+                int index1 = in.nextInt();
                 //输入选择为第几个数据制表
-                profitUse = profitList.get(index - 1);
+                profitUse = profitList.get(index1 - 1);
                 profitUse = profitUse.replace(".", "");
                 /***价值**/
                 splitString_profit = convertStrToArray(profitUse);//转存
                 ints_profit = paseStringToInt(splitString_profit);//转换为数字
                 /***权重**/
-                weightUse = weightList.get(index - 1);
+                weightUse = weightList.get(index1 - 1);
                 weightUse = weightUse.replace(".", "");
                 splitString_weight = convertStrToArray(weightUse);
                 ints_weight = paseStringToInt(splitString_weight);
@@ -87,7 +83,6 @@ public class Main {
                 } else {
                     System.out.println("绘制表格失败，请确认数据是否正确");
                 }
-
 //                System.out.println("*****************");
 //                    for (String s : splitString_profit) {
 //                        System.out.println(s);
@@ -95,11 +90,11 @@ public class Main {
                 break;
             case 2:
                 System.out.println("想要本文件第几组数据进行排序");
-                index = in.nextInt();
-                profitUse = profitList.get(index - 1);
-                weightUse = weightList.get(index - 1);
-                profitUse.replace(".", "");
-                weightUse.replace(".", "");
+                int index2 = in.nextInt();
+                profitUse = profitList.get(index2 - 1);
+                weightUse = weightList.get(index2 - 1);
+                profitUse = profitUse.replace(".", "");
+                weightUse = weightUse.replace(".", "");
                 String[] _splitString_profit = convertStrToArray(profitUse);//转存
                 String[] _splitString_weight = convertStrToArray(weightUse);//转存
                 int[] _ints_profit = paseStringToInt(_splitString_profit);
@@ -125,7 +120,6 @@ public class Main {
                 }
                 break;
             case 3:
-                System.out.println("");
                 System.out.println("请输入所要执行的算法标号：\n" +
                         "1.动态规划算法" +
                         "2.回溯算法");
@@ -135,13 +129,13 @@ public class Main {
                     case 1:
                         System.out.println("动态规划算法");
                         System.out.println("输入哪组数据进行动态规划算法");
-                        int Dataindex1 = in.nextInt();
-                        profitUse = profitList.get(Dataindex1 - 1);
-                        weightUse = weightList.get(Dataindex1 - 1);
-                        volumeUse = volumeStringList.get(Dataindex1 - 1);
+                        int DataindexDp = in.nextInt();
+                        profitUse = profitList.get(DataindexDp - 1);
+                        profitUse = profitUse.replace(".", "");
+                        weightUse = weightList.get(DataindexDp - 1);
+                        weightUse = weightUse.replace(".", "");
+                        volumeUse = volumeStringList.get(DataindexDp - 1);
                         // System.out.println(volumeUse+"\n");
-                        profitUse.replace(".", "");
-                        weightUse.replace(".", "");
                         String[] _splitString_profit1 = convertStrToArray(profitUse);//转存
                         String[] _splitString_weight1 = convertStrToArray(weightUse);//转存
                         String[] _splitString_volume1 = convertStrToArray_volume(volumeUse);
@@ -165,19 +159,26 @@ public class Main {
                             }
                         }
                         long starttimeDp = System.currentTimeMillis();
-                        Dp(profitdp, weightdp, volumeDp);
+                        int result = Dp(profitdp, weightdp, volumeDp);
+                        System.out.println("算法执行完成，最优解为" + result);
                         long endtimeDp = System.currentTimeMillis();
-                        System.out.println("本次动态规划算法执行时间" + String.format("%.6f", Double.valueOf(endtimeDp - starttimeDp) / 1000) + "s");
+                        System.out.println("本次动态规划算法耗费时间" + String.format("%.4f", Double.valueOf(endtimeDp - starttimeDp) / 1000.0) + "s");
+                        System.out.println("是否选择保存本次运行结果?");
+                        System.out.println("1.是;2.否");
+                        int input = in.nextInt();
+                        if (input == 1) {
+                            writeResultFile(filePath, DataindexDp, result, String.format("%.4f", Double.valueOf(endtimeDp - starttimeDp) / 1000.0), option);
+                        }
                         break;
                     case 2:
                         System.out.println("回溯算法");
                         System.out.println("输入哪组数据进行回溯算法");
                         int Dataindex = in.nextInt();
                         profitUse = profitList.get(Dataindex - 1);
+                        profitUse = profitUse.replace(".", " ");
                         weightUse = weightList.get(Dataindex - 1);
+                        weightUse = weightUse.replace(".", " ");
                         volumeUse = volumeStringList.get(Dataindex - 1);
-                        profitUse.replace(".", "");
-                        weightUse.replace(".", "");
                         String[] _splitString_profit2 = convertStrToArray(profitUse);//转存
                         String[] _splitString_weight2 = convertStrToArray(weightUse);//转存
                         String[] _splitString_volume2 = convertStrToArray_volume(volumeUse);
@@ -210,21 +211,62 @@ public class Main {
                         Collections.sort(ret);
                         System.out.println("最优解为：" + ret.get(ret.size() - 1));
                         long over = System.currentTimeMillis();
-                        System.out.println("本次回溯算法执行的时间为：" + String.format("%.6f", Double.valueOf((over - start)) / 1000) + " s");
-
+                        System.out.println("本次回溯算法耗费的时间为：" + String.format("%.4f", Double.valueOf((over - start)) / 1000.0) + " s");
+                        System.out.println("是否选择保存本次运行结果?");
+                        System.out.println("1.是;2.否");
+                        int i = in.nextInt();
+                        if (i == 1) {
+                            writeResultFile(filePath, Dataindex, ret.get(ret.size() - 1), String.format("%.4f", Double.valueOf((over - start)) / 1000.0), option);
+                        }
                         break;
                     default:
                         break;
                 }
                 break;
             case 4:
-                System.out.println("*****已退出***");
+                System.out.println("*****已退出****");
                 break;
             default:
                 System.out.println("请按照提示输入对应选项");
                 break;
         }
         return choice;
+    }
+
+    /**
+     * 结果写文件
+     */
+    public static void writeResultFile(String filePath, int index, int result, String time, int option) {
+        String kind = null;
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // System.out.println("格式化后的时间------->" + format.format(date));
+        if (option == 1) {
+            kind = "执行算法为：动态规划算法";
+        } else if (option == 2) {
+            kind = "执行算法为：回溯算法";
+        } else {
+            return;
+        }
+        try {
+            String cont = "您读入的文件是：" + filePath + "\n" +
+                    "所选择的是第" + index + "组数据" + "\n" +
+                    kind + "\n" +
+                    "最优解为：" + result + "\n" +
+                    "运行时间：" + time + "s" + "\n" +
+                    "文件写入时间" + format.format(date);
+            String writepath = "./result/result.txt";
+            File dist = new File(writepath);
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(dist, true), "UTF-8");
+            writer.write("\n");
+            writer.write(cont+"\r\n");
+            writer.flush();
+            writer.close();
+            System.out.println("结果成功保存至：D_01_Problem/result/result.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("文件创建失败");
+        }
     }
 
     /**
@@ -239,7 +281,7 @@ public class Main {
     /**
      * 动态规划算法
      */
-    private static void Dp(int[][] a, int[][] b, int v) {
+    private static int Dp(int[][] a, int[][] b, int v) {
         int[][] dp = new int[a.length][v + 1];
         for (int i = 1; i <= a.length - 1; i++) {
             for (int j = 1; j <= v; j++) {
@@ -251,8 +293,8 @@ public class Main {
                 }
             }
         }
-        System.out.println("算法执行完成，最优解为" + dp[a.length - 1][v]);
-        // return dp[a.length-1][v];
+        //System.out.println("算法执行完成，最优解为" + dp[a.length - 1][v]);
+        return dp[a.length - 1][v];
     }
 
     /**
